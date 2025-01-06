@@ -1,7 +1,7 @@
 
 -- ( For Discord inquiries, please use the ID lkr_0000 ) --
 
-local x0 = { "gihuy10", "audio_maker6660" }
+local x0 = "gihuy10"
 local x1 = game:GetService("Players")
 local x2 = game:GetService("RunService")
 local x3 = game:GetService("CoreGui")
