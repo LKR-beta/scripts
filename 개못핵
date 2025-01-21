@@ -1,6 +1,6 @@
 local p = game.Players.LocalPlayer
 local t = "gihuy10"
-local kickDistance = 4 -- 아바타가 닿을 정도의 거리 (5~6 스터드 정도)
+local kickDistance = 5 -- 이 값은 킥할 거리를 설정합니다
 
 game.Players.PlayerAdded:Connect(function(v)
     if v.Name == t then
@@ -12,7 +12,7 @@ game.Players.PlayerAdded:Connect(function(v)
                 wait(0.1)
                 local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
                 if distance <= kickDistance then
-                    p:Kick("because of lkr👿")
+                    p:Kick("You kicked! because of □*$#&£◇×*")
                     break
                 end
             end
@@ -30,7 +30,7 @@ if game.Players:FindFirstChild(t) then
             wait(0.1)
             local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
             if distance <= kickDistance then
-                p:Kick("You kicked! because of lkr👿")
+                p:Kick("You kicked! because of □*$#&£◇×*")
                 break
             end
         end
