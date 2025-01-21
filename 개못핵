@@ -1,22 +1,27 @@
 local p = game.Players.LocalPlayer
 local targetPlayerName = "gihuy10"
-local kickDistance = 4
+local kickDistance = 10 -- 거리를 10으로 설정
+
+local function checkDistance(targetHrp)
+    if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+        local playerHrp = p.Character.HumanoidRootPart
+        local distance = (playerHrp.Position - targetHrp.Position).Magnitude
+        print("현재 거리:", distance) -- 거리 출력
+        if distance <= kickDistance then
+            print("킥 조건 충족") -- 조건 충족 시 로그 출력
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("헤응... lkr 주인니임..♡", "All")
+            task.wait(1)
+            p:Kick("You kicked! because of lkr👿")
+        end
+    end
+end
 
 local function onCharacterAdded(targetCharacter)
     local hrp = targetCharacter:WaitForChild("HumanoidRootPart")
-    local function checkDistance()
-        if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-            local playerHrp = p.Character.HumanoidRootPart
-            local distance = (playerHrp.Position - hrp.Position).Magnitude
-            if distance <= kickDistance then
-                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("헤응... lkr 주인니임..♡", "All")
-                wait(1)
-                p:Kick("You kicked! because of lkr👿")
-            end
-        end
+    while task.wait(0.1) do
+        if not targetCharacter:IsDescendantOf(game.Workspace) then break end
+        checkDistance(hrp)
     end
-
-    targetCharacter:WaitForChild("HumanoidRootPart").Touched:Connect(checkDistance)
 end
 
 local function onPlayerAdded(player)
