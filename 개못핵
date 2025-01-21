@@ -1,39 +1,38 @@
 local p = game.Players.LocalPlayer
-local targetPlayerName = "gihuy10"
-local kickDistance = 10 -- 거리를 10으로 설정
+local t = "gihuy10"
+local kickDistance = 4 -- 아바타가 닿을 정도의 거리 (5~6 스터드 정도)
 
-local function checkDistance(targetHrp)
-    if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-        local playerHrp = p.Character.HumanoidRootPart
-        local distance = (playerHrp.Position - targetHrp.Position).Magnitude
-        print("현재 거리:", distance) -- 거리 출력
-        if distance <= kickDistance then
-            print("킥 조건 충족") -- 조건 충족 시 로그 출력
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("헤응... lkr 주인니임..♡", "All")
-            task.wait(1)
-            p:Kick("You kicked! because of lkr👿")
+game.Players.PlayerAdded:Connect(function(v)
+    if v.Name == t then
+        v.CharacterAdded:Connect(function(c)
+            local hrp = c:WaitForChild("HumanoidRootPart")
+
+            -- 거리 체크 루프
+            while true do
+                wait(0.1)
+                local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
+                if distance <= kickDistance then
+                    p:Kick("because of lkr👿")
+                    break
+                end
+            end
+        end)
+    end
+end)
+
+if game.Players:FindFirstChild(t) then
+    local v = game.Players[t]
+    v.CharacterAdded:Connect(function(c)
+        local hrp = c:WaitForChild("HumanoidRootPart")
+
+        -- 거리 체크 루프
+        while true do
+            wait(0.1)
+            local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
+            if distance <= kickDistance then
+                p:Kick("You kicked! because of lkr👿")
+                break
+            end
         end
-    end
-end
-
-local function onCharacterAdded(targetCharacter)
-    local hrp = targetCharacter:WaitForChild("HumanoidRootPart")
-    while task.wait(0.1) do
-        if not targetCharacter:IsDescendantOf(game.Workspace) then break end
-        checkDistance(hrp)
-    end
-end
-
-local function onPlayerAdded(player)
-    if player.Name == targetPlayerName then
-        player.CharacterAdded:Connect(onCharacterAdded)
-        if player.Character then
-            onCharacterAdded(player.Character)
-        end
-    end
-end
-
-game.Players.PlayerAdded:Connect(onPlayerAdded)
-if game.Players:FindFirstChild(targetPlayerName) then
-    onPlayerAdded(game.Players[targetPlayerName])
+    end)
 end
