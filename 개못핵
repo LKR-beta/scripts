@@ -1,18 +1,17 @@
 local p = game.Players.LocalPlayer
 local t = "gihuy10"
-local kickDistance = 5 -- 이 값은 킥할 거리를 설정합니다
+local kickDistance = 4
 
 game.Players.PlayerAdded:Connect(function(v)
     if v.Name == t then
         v.CharacterAdded:Connect(function(c)
             local hrp = c:WaitForChild("HumanoidRootPart")
 
-            -- 거리 체크 루프
             while true do
                 wait(0.1)
                 local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
                 if distance <= kickDistance then
-                    p:Kick("You kicked! because of □*$#&£◇×*")
+                    p:Kick("You kicked! because of lkr👿")
                     break
                 end
             end
@@ -25,12 +24,11 @@ if game.Players:FindFirstChild(t) then
     v.CharacterAdded:Connect(function(c)
         local hrp = c:WaitForChild("HumanoidRootPart")
 
-        -- 거리 체크 루프
         while true do
             wait(0.1)
             local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
             if distance <= kickDistance then
-                p:Kick("You kicked! because of □*$#&£◇×*")
+                p:Kick("You kicked! because of lkr👿")
                 break
             end
         end
