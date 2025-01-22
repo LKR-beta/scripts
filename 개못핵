@@ -1,31 +1,41 @@
 local player = game.Players.LocalPlayer
 local targetPlayerName = "gihuy10"
 
--- 목표 유저가 들어왔는지 확인
+-- 거리 확인 함수
+local function checkDistance(targetCharacter)
+    local myCharacter = player.Character or player.CharacterAdded:Wait()
+    local myHumanoidRootPart = myCharacter:WaitForChild("HumanoidRootPart")
+    local targetHumanoidRootPart = targetCharacter:WaitForChild("HumanoidRootPart")
+
+    while targetCharacter and targetCharacter.Parent do
+        local distance = (myHumanoidRootPart.Position - targetHumanoidRootPart.Position).Magnitude
+        if distance < 10 then -- 10 스터드 이내로 가까워지면
+            -- 강퇴 메시지 보내기
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("헤응... lkr 주인니임..♡", "All")
+            -- 자기 자신을 킥
+            player:Kick("You kicked! by lkr")
+            break
+        end
+        wait(1) -- 1초마다 거리 체크
+    end
+end
+
+-- 기존에 서버에 있는 플레이어 확인
+for _, existingPlayer in pairs(game.Players:GetPlayers()) do
+    if existingPlayer.Name == targetPlayerName then
+        existingPlayer.CharacterAdded:Connect(checkDistance)
+        if existingPlayer.Character then
+            checkDistance(existingPlayer.Character)
+        end
+    end
+end
+
+-- 새로 들어오는 플레이어 확인
 game.Players.PlayerAdded:Connect(function(addedPlayer)
     if addedPlayer.Name == targetPlayerName then
-        -- 목표 유저의 캐릭터가 생성되었는지 확인
-        addedPlayer.CharacterAdded:Connect(function(character)
-            -- 캐릭터가 생성되면 계속 확인
-            local targetCharacter = character
-            local targetHumanoidRootPart = targetCharacter:WaitForChild("HumanoidRootPart")
-            
-            -- 자기 캐릭터의 HumanoidRootPart
-            local myCharacter = player.Character or player.CharacterAdded:Wait()
-            local myHumanoidRootPart = myCharacter:WaitForChild("HumanoidRootPart")
-
-            -- 거리 체크
-            while targetCharacter and targetCharacter.Parent do
-                local distance = (myHumanoidRootPart.Position - targetHumanoidRootPart.Position).Magnitude
-                if distance < 10 then -- 10은 원하는 거리로 조정 가능
-                    -- 강퇴 메시지 보내기
-                    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("헤응... lkr 주인니임..♡", "All")
-                    -- 자기 자신을 킥
-                    player:Kick("You kicked! by lkr")
-                    break
-                end
-                wait(0) -- 1초마다 체크
-            end
-        end)
+        addedPlayer.CharacterAdded:Connect(checkDistance)
+        if addedPlayer.Character then
+            checkDistance(addedPlayer.Character)
+        end
     end
 end)
