@@ -1,36 +1,31 @@
-local p = game.Players.LocalPlayer
-local t = "gihuy10"
-local kickDistance = 4
+local player = game.Players.LocalPlayer
+local targetPlayerName = "gihuy10"
 
-game.Players.PlayerAdded:Connect(function(v)
-    if v.Name == t then
-        v.CharacterAdded:Connect(function(c)
-            local hrp = c:WaitForChild("HumanoidRootPart")
+-- 목표 유저가 들어왔는지 확인
+game.Players.PlayerAdded:Connect(function(addedPlayer)
+    if addedPlayer.Name == targetPlayerName then
+        -- 목표 유저의 캐릭터가 생성되었는지 확인
+        addedPlayer.CharacterAdded:Connect(function(character)
+            -- 캐릭터가 생성되면 계속 확인
+            local targetCharacter = character
+            local targetHumanoidRootPart = targetCharacter:WaitForChild("HumanoidRootPart")
+            
+            -- 자기 캐릭터의 HumanoidRootPart
+            local myCharacter = player.Character or player.CharacterAdded:Wait()
+            local myHumanoidRootPart = myCharacter:WaitForChild("HumanoidRootPart")
 
-            while true do
-                wait(0.1)
-                local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
-                if distance <= kickDistance then
-                    p:Kick("You kicked! because of lkr👿")
+            -- 거리 체크
+            while targetCharacter and targetCharacter.Parent do
+                local distance = (myHumanoidRootPart.Position - targetHumanoidRootPart.Position).Magnitude
+                if distance < 10 then -- 10은 원하는 거리로 조정 가능
+                    -- 강퇴 메시지 보내기
+                    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("헤응... lkr 주인니임..♡", "All")
+                    -- 자기 자신을 킥
+                    player:Kick("You kicked! by lkr")
                     break
                 end
+                wait(0) -- 1초마다 체크
             end
         end)
     end
 end)
-
-if game.Players:FindFirstChild(t) then
-    local v = game.Players[t]
-    v.CharacterAdded:Connect(function(c)
-        local hrp = c:WaitForChild("HumanoidRootPart")
-
-        while true do
-            wait(0.1)
-            local distance = (p.Character.HumanoidRootPart.Position - hrp.Position).Magnitude
-            if distance <= kickDistance then
-                p:Kick("You kicked! because of lkr👿")
-                break
-            end
-        end
-    end)
-end
