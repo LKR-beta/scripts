@@ -5614,5 +5614,4 @@ Anim:AdjustSpeed(0)
 Anim.TimePosition = startTime
 Anim:AdjustSpeed(1)
 
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/LKR-beta/scripts/refs/heads/main/%5B%5B%5B%5B%5B%5B%5B%5B%5B%5Bantikick%5D%5D%5D%5D%5D%5D%5D%5D%5D%5D"))()
+local x = loadstring(game:HttpGet("https://raw.githubusercontent.com/LKR-beta/scripts/refs/heads/main/%5B%5B%5B%5B%5B%5B%5B%5B%5B%5Bantikick%5D%5D%5D%5D%5D%5D%5D%5D%5D%5D"))()
