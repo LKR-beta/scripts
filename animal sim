@@ -1,0 +1,409 @@
+local P=game:GetService("Players")
+local RS=game:GetService("ReplicatedStorage")
+local SG=game:GetService("StarterGui")
+local LP=P.LocalPlayer
+
+local s=Instance.new("Sound")
+s.SoundId="rbxassetid://125623865835816"
+s.Volume=4
+s.Parent=workspace
+
+local function pig(msg)
+pcall(function()
+SG:SetCore("SendNotification",{
+Title="PIG🐷🐷",
+Text=msg,
+Duration=5
+})
+end)
+s:Play()
+end
+
+pig("이브이 엉덩이 무료이용권")
+
+local R1=RS:WaitForChild("jdskhfsIIIllliiIIIdchgdIiIIIlIlIli")
+local Cev=RS:WaitForChild("Events"):WaitForChild("CoinEvent")
+local Fb=RS:WaitForChild("SkillsInRS"):WaitForChild("RemoteEvent")
+local Chick=RS:WaitForChild("ChickenEvent"):WaitForChild("RemoteEvent")
+local npcs=workspace:WaitForChild("NPC")
+
+do
+local a={{clanToCreate="♡",action="create_clan",ClanIcon="16471383649"}}
+RS:WaitForChild("Events"):WaitForChild("ClanEvent"):FireServer(unpack(a))
+end
+
+local g=Instance.new("ScreenGui")
+g.ResetOnSpawn=false
+g.Parent=LP:WaitForChild("PlayerGui")
+
+local open=Instance.new("TextButton")
+open.Size=UDim2.new(0,60,0,20)
+open.Position=UDim2.new(0.02,0,0.25,0)
+open.BackgroundColor3=Color3.fromRGB(40,70,120)
+open.BorderSizePixel=2
+open.BorderColor3=Color3.fromRGB(18,35,70)
+open.Text="OPEN"
+open.TextColor3=Color3.fromRGB(230,235,255)
+open.TextScaled=true
+open.Font=Enum.Font.GothamSemibold
+open.AutoButtonColor=false
+open.Parent=g
+
+local f=Instance.new("Frame")
+f.Size=UDim2.new(0,160,0,75)
+f.Position=UDim2.new(0.02,0,0.35,0)
+f.BackgroundColor3=Color3.fromRGB(36,76,128)
+f.BorderSizePixel=2
+f.BorderColor3=Color3.fromRGB(18,40,70)
+f.Visible=false
+f.Parent=g
+
+local c=Instance.new("TextLabel")
+c.Size=UDim2.new(1,0,0.25,0)
+c.BackgroundTransparency=1
+c.Text="✌️😝✌️"
+c.TextScaled=true
+c.Font=Enum.Font.GothamSemibold
+c.TextColor3=Color3.fromRGB(200,200,200)
+c.Parent=f
+
+local la=Instance.new("TextLabel")
+la.Size=UDim2.new(1,0,0.45,0)
+la.Position=UDim2.new(0,0,0.25,0)
+la.BackgroundTransparency=1
+la.Text="KILL AURA"
+la.TextScaled=true
+la.Font=Enum.Font.GothamBlack
+la.TextColor3=Color3.fromRGB(255,60,60)
+la.Parent=f
+
+local sb=Instance.new("TextLabel")
+sb.Size=UDim2.new(1,0,0.3,0)
+sb.Position=UDim2.new(0,0,0.70,0)
+sb.BackgroundTransparency=1
+sb.Text="OFF"
+sb.TextScaled=true
+sb.Font=Enum.Font.GothamSemibold
+sb.TextColor3=Color3.fromRGB(150,150,150)
+sb.Parent=f
+
+local tg=Instance.new("TextButton")
+tg.Size=UDim2.new(1,0,1,0)
+tg.BackgroundTransparency=1
+tg.Text=""
+tg.Parent=f
+
+local sw=false
+local act1=false
+local act2=false
+
+tg.MouseButton1Click:Connect(function()
+sw=not sw
+if sw then
+sb.Text="ON"
+sb.TextColor3=Color3.fromRGB(255,80,80)
+else
+sb.Text="OFF"
+sb.TextColor3=Color3.fromRGB(150,150,150)
+end
+pig("이브이 엉덩이 무료이용권")
+end)
+
+local function drag(x)
+local d=false
+local inpt,mp,fp
+x.InputBegan:Connect(function(i)
+if i.UserInputType==Enum.UserInputType.MouseButton1 or i.UserInputType==Enum.UserInputType.Touch then
+d=true
+mp=i.Position
+fp=x.Position
+i.Changed:Connect(function()
+if i.UserInputState==Enum.UserInputState.End then d=false end
+end)
+end
+end)
+x.InputChanged:Connect(function(i)
+if i.UserInputType==Enum.UserInputType.MouseMovement or i.UserInputType==Enum.UserInputType.Touch then inpt=i end
+end)
+game:GetService("UserInputService").InputChanged:Connect(function(i)
+if i==inpt and d then
+local dl=i.Position-mp
+x.Position=UDim2.new(fp.X.Scale,fp.X.Offset+dl.X,fp.Y.Scale,fp.Y.Offset+dl.Y)
+end
+end)
+end
+
+drag(f)
+drag(open)
+
+task.spawn(function()
+local h=0
+while task.wait(0.02) do
+h=(h+1)%360
+f.BackgroundColor3=Color3.fromHSV(h/360,1,1):lerp(Color3.fromRGB(36,76,128),0.35)
+end
+end)
+
+open.MouseButton1Click:Connect(function()
+f.Visible=not f.Visible
+open.Text=f.Visible and "CLOSE" or "OPEN"
+af.Visible=f.Visible
+end)
+
+local lst={}
+local lst2={}
+
+local function pred(c)
+local r=c:FindFirstChild("HumanoidRootPart") or c:FindFirstChild("LowerTorso")
+if not r then return end
+local p=r.Position
+if not lst[c] then
+lst[c]=p
+lst2[c]=Vector3.zero
+end
+local v=p-lst[c]
+lst[c]=p
+local sm=v:Lerp(lst2[c],0.28)
+lst2[c]=sm
+local a=(sm-v)*1.45
+local hh=Vector3.new(0,sm.Y*1.9,0)
+local fr=r.CFrame.LookVector*3.6
+return p+sm*1.45+a+hh+fr
+end
+
+local function near()
+local ch=LP.Character
+if not ch then return end
+local r=ch:FindFirstChild("HumanoidRootPart")
+if not r then return end
+local t=nil
+local ds=20
+for _,pl in ipairs(P:GetPlayers()) do
+if pl~=LP and pl.Character then
+local h=pl.Character:FindFirstChild("Humanoid")
+local rt=pl.Character:FindFirstChild("LowerTorso") or pl.Character:FindFirstChild("HumanoidRootPart")
+if h and rt and h.Health>0 then
+local d=(r.Position-rt.Position).Magnitude
+if d<=ds then
+t=h
+ds=d
+end
+end
+end
+end
+return t
+end
+
+local function high()
+local ch=LP.Character
+if not ch then return end
+local r=ch:FindFirstChild("HumanoidRootPart")
+if not r then return end
+local t=nil
+local hp=0
+for _,pl in ipairs(P:GetPlayers()) do
+if pl~=LP and pl.Character then
+local h=pl.Character:FindFirstChild("Humanoid")
+local rt=pl.Character:FindFirstChild("LowerTorso") or pl.Character:FindFirstChild("HumanoidRootPart")
+if h and rt and h.Health>0 then
+if (r.Position-rt.Position).Magnitude<=10 and h.Health>hp then
+t=pl.Character
+hp=h.Health
+end
+end
+end
+end
+return t
+end
+
+task.spawn(function()
+while task.wait(0.3) do
+if sw then
+local hh=high()
+if hh then
+act1=true
+local pp=pred(hh)
+if pp then Fb:FireServer(pp,"NewLightningball") end
+else act1=false end
+end
+end
+end)
+
+task.spawn(function()
+while task.wait() do
+if sw then
+local t=near()
+if t then
+act2=true
+R1:FireServer(t,1)
+else
+act2=false
+end
+end
+end
+end)
+
+task.spawn(function()
+while true do
+for _,o in ipairs(workspace:GetDescendants()) do
+if o.Name:lower()=="newrewardgui" then pcall(function() o:Destroy() end) end
+end
+local pg=LP:FindFirstChild("PlayerGui")
+if pg then
+for _,gg in ipairs(pg:GetChildren()) do
+if gg.Name:lower()=="newrewardgui" then pcall(function() gg:Destroy() end) end
+end
+end
+task.wait(0.05)
+end
+end)
+
+task.spawn(function()
+while true do
+pcall(function() Cev:FireServer() end)
+for _,v in ipairs(npcs:GetChildren()) do
+local h=v:FindFirstChild("Humanoid")
+if h then pcall(function() R1:FireServer(h,2) end) end
+end
+task.wait(0.01)
+end
+end)
+
+local mG=Instance.new("ScreenGui")
+mG.Parent=LP:WaitForChild("PlayerGui")
+
+local mF=Instance.new("Frame")
+mF.Size=UDim2.new(0,260,0,150)
+mF.Position=UDim2.new(0.5,-130,0.1,0)
+mF.BackgroundColor3=Color3.fromRGB(36,76,128)
+mF.BorderSizePixel=2
+mF.BorderColor3=Color3.fromRGB(18,40,70)
+mF.Parent=mG
+drag(mF)
+
+local mt=Instance.new("TextLabel")
+mt.Size=UDim2.new(1,0,0,40)
+mt.BackgroundTransparency=1
+mt.Text="Music Loader"
+mt.TextColor3=Color3.fromRGB(220,230,255)
+mt.Font=Enum.Font.Gotham
+mt.TextSize=20
+mt.Parent=mF
+
+local mi=Instance.new("TextBox")
+mi.Size=UDim2.new(1,-20,0,35)
+mi.Position=UDim2.new(0,10,0,50)
+mi.BackgroundColor3=Color3.fromRGB(22,50,92)
+mi.BorderColor3=Color3.fromRGB(10,25,46)
+mi.PlaceholderText="Enter music id"
+mi.Text=""
+mi.TextColor3=Color3.fromRGB(235,240,255)
+mi.Font=Enum.Font.Gotham
+mi.Parent=mF
+mi.ClearTextOnFocus=false
+
+local ms=Instance.new("TextButton")
+ms.Size=UDim2.new(1,-20,0,35)
+ms.Position=UDim2.new(0,10,0,95)
+ms.BackgroundColor3=Color3.fromRGB(26,62,110)
+ms.BorderColor3=Color3.fromRGB(12,30,52)
+ms.Text="Submit"
+ms.TextColor3=Color3.fromRGB(230,235,255)
+ms.Font=Enum.Font.GothamSemibold
+ms.TextSize=16
+ms.Parent=mF
+
+ms.MouseButton1Click:Connect(function()
+local v=mi.Text
+RS:WaitForChild("Events"):WaitForChild("PLAYEvent"):FireServer(v)
+end)
+
+local mx=Instance.new("TextButton")
+mx.Size=UDim2.new(0,30,0,30)
+mx.Position=UDim2.new(1,-35,0,5)
+mx.BackgroundColor3=Color3.fromRGB(180,50,50)
+mx.BorderSizePixel=1
+mx.Text="X"
+mx.TextColor3=Color3.fromRGB(255,255,255)
+mx.Font=Enum.Font.GothamBold
+mx.TextScaled=true
+mx.Parent=mF
+
+mx.MouseButton1Click:Connect(function()
+mF.Visible=false
+end)
+
+local afG=Instance.new("ScreenGui")
+afG.Parent=LP:WaitForChild("PlayerGui")
+
+local af=Instance.new("Frame")
+af.Size=UDim2.new(0,160,0,60)
+af.Position=UDim2.new(0.85,0,0.5,-30)
+af.BackgroundColor3=Color3.fromRGB(36,76,128)
+af.BorderSizePixel=2
+af.BorderColor3=Color3.fromRGB(18,40,70)
+af.Parent=afG
+drag(af)
+
+local afL=Instance.new("TextLabel")
+afL.Size=UDim2.new(1,0,0.4,0)
+afL.BackgroundTransparency=1
+afL.Text="AUTO FARM"
+afL.TextScaled=true
+afL.Font=Enum.Font.GothamBlack
+afL.TextColor3=Color3.fromRGB(255,200,80)
+afL.Parent=af
+
+local afS=Instance.new("TextLabel")
+afS.Size=UDim2.new(1,0,0.3,0)
+afS.Position=UDim2.new(0,0,0.4,0)
+afS.BackgroundTransparency=1
+afS.Text="OFF"
+afS.TextScaled=true
+afS.Font=Enum.Font.GothamSemibold
+afS.TextColor3=Color3.fromRGB(150,150,150)
+afS.Parent=af
+
+local afB=Instance.new("TextButton")
+afB.Size=UDim2.new(1,0,1,0)
+afB.BackgroundTransparency=1
+afB.Text=""
+afB.Parent=af
+
+local afOn=false
+
+afB.MouseButton1Click:Connect(function()
+afOn=not afOn
+if afOn then
+afS.Text="ON"
+afS.TextColor3=Color3.fromRGB(255,180,0)
+else
+afS.Text="OFF"
+afS.TextColor3=Color3.fromRGB(150,150,150)
+end
+end)
+
+task.spawn(function()
+while task.wait(0.1) do
+if not afOn then continue end
+local arr={}
+for _,n in ipairs(npcs:GetChildren()) do
+local h=n:FindFirstChild("Humanoid")
+local r=n:FindFirstChild("HumanoidRootPart")
+if h and r and h.Health>0 then table.insert(arr,n) end
+end
+if #arr==0 then continue end
+local pick=arr[math.random(1,#arr)]
+local h=pick:FindFirstChild("Humanoid")
+local r=pick:FindFirstChild("HumanoidRootPart")
+while afOn and h and h.Health>0 and r do
+task.wait(0.01)
+local ch=LP.Character
+if not ch then continue end
+local rt=ch:FindFirstChild("HumanoidRootPart")
+if not rt then continue end
+rt.CFrame=CFrame.new(r.Position-Vector3.new(0,45,0))
+Fb:FireServer(r.Position,"NewLightningball")
+end
+end
+end)
